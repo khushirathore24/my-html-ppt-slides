@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>presentation</title>
+    <style>
+       
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      text-align: center;
+    }
+
+    .presentation-container {
+      position: relative;
+      width: 960px;
+      height: 569px;
+      margin: 50px auto;
+      border: 2px solid #000;
+      background: #fff;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .laser-pointer {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 10px red;
+      z-index: 9999;
+      transition: transform 0.05s linear;
+      display: none;
+    }
+
+    /* Color Variants */
+    .red { background-color: red; box-shadow: 0 0 10px red; }
+    .green { background-color: limegreen; box-shadow: 0 0 10px limegreen; }
+    .blue { background-color: dodgerblue; box-shadow: 0 0 10px dodgerblue; }
+
+    .controls {
+      margin-bottom: 20px;
+    }
+
+    .controls button {
+      padding: 8px 15px;
+      margin: 0 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .active {
+      font-weight: bold;
+      border: 2px solid #000;
+    }
+ 
+    </style>
+</head>
+<body>
+    <center>
+       
+        <p><b>welcome to evolve web info</b></p>
+        <!-- <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTAwHFj0I2nk6EcdowDFJNaV7vUjntyphduadbq7jWS6I3JCj4FYXbhDpy51WQr2w/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="749" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe> -->
+        <!-- <iframe src="https://1drv.ms/p/c/edd051afe0a660d9/IQRmVmtSWxcSTrDyBSNET0F-AZAxmOvLPVqsQCTBhZRviz0?em=2&amp;wdAr=1.3333333333333333" width="960px" height="749px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe> -->
+        
+        <h2>HTML Embedded Presentation</h2>
+
+        <div class="controls">
+          <button id="toggleBtn">🔴 Laser: OFF</button>
+          <button class="colorBtn" data-color="red">Red</button>
+          <button class="colorBtn" data-color="green">Green</button>
+          <button class="colorBtn" data-color="blue">Blue</button>
+        </div>
+      
+        <div class="presentation-container" id="presentation">
+          <iframe src="https://1drv.ms/p/c/edd051afe0a660d9/IQRmVmtSWxcSTrDyBSNET0F-AZAxmOvLPVqsQCTBhZRviz0?em=2&amp;wdAr=1.3333333333333333" width="960px" height="749px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe>
+          <div class="laser-pointer red" id="laser"></div>
+        </div>
+      
+        <script>
+          const laser = document.getElementById("laser");
+          const container = document.getElementById("presentation");
+          const toggleBtn = document.getElementById("toggleBtn");
+          const colorBtns = document.querySelectorAll(".colorBtn");
+      
+          let laserEnabled = false;
+      
+          toggleBtn.addEventListener("click", () => {
+            laserEnabled = !laserEnabled;
+            toggleBtn.textContent = laserEnabled ? "🔴 Laser: ON" : "🔴 Laser: OFF";
+            laser.style.display = laserEnabled ? "block" : "none";
+          });
+      
+          container.addEventListener("mousemove", function(e) {
+            if (!laserEnabled) return;
+      
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+      
+            laser.style.transform = `translate(${x - 7.5}px, ${y - 7.5}px)`;
+          });
+      
+          container.addEventListener("mouseleave", () => {
+            if (laserEnabled) laser.style.display = "none";
+          });
+      
+          container.addEventListener("mouseenter", () => {
+            if (laserEnabled) laser.style.display = "block";
+          });
+      
+          colorBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+              const color = btn.dataset.color;
+              laser.className = `laser-pointer ${color}`;
+      
+              colorBtns.forEach(b => b.classList.remove("active"));
+              btn.classList.add("active");
+            });
+          });
+      
+          // Default active button
+          colorBtns[0].classList.add("active");
+        </script>
+      
+    </center>
+    
+</body>
+</html>
